@@ -1,4 +1,9 @@
 # skinny_trie
 
-A trie which processes its data between insertion and lookup to be more space and cache efficient.
+A trie which spends processing time during insertion to optimize speed and space efficiency at lookup time.
 
+CLI usage:
+make init
+./init key1 value1 key2 value2 keyn valuen
+make lookup
+./lookup key

@@ -7,3 +7,5 @@ make init
 ./init key1 value1 key2 value2 keyn valuen
 make lookup
 ./lookup key
+
+test data from https://github.com/adambom/dictionary

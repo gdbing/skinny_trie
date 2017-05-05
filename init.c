@@ -132,7 +132,7 @@ size_t count_nodes(wide_node *wn)
 size_t pack_node_threshold(wide_node *wn, skinny_trie *st, size_t leeway); // TODO LOL GROSS
 size_t pack_node(wide_node *wn, skinny_trie *st)
 {
-	return pack_node_threshold(wn, st, 0);
+	return pack_node_threshold(wn, st, 1);
 }
 
 size_t pack_node_threshold(wide_node *wn, skinny_trie *st, size_t leeway)

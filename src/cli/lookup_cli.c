@@ -1,5 +1,5 @@
-#include "trie.h"
-#include "lookup.h"
+#include "../trie.h"
+#include "../lookup.h"
 #include <stdio.h>
 
 int main(int argc, char ** argv)
@@ -8,5 +8,4 @@ int main(int argc, char ** argv)
 		printf("%s: %s\n", argv[1], lookup_val(lookup_key(argv[1])));
 	else
 		printf("usage: lookup key\n");
-
 }

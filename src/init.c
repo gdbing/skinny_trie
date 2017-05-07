@@ -129,17 +129,9 @@ size_t count_nodes(wide_node *wn)
 	return count;
 }
 
-size_t pack_node_threshold(wide_node *wn, skinny_trie *st, size_t leeway); // TODO LOL GROSS
+
 size_t pack_node(wide_node *wn, skinny_trie *st)
 {
-	return pack_node_threshold(wn, st, 1);
-}
-
-size_t pack_node_threshold(wide_node *wn, skinny_trie *st, size_t leeway)
-{
-	skinny_node *sn;
-	size_t i;
-
 /******************* THIS IS SO GROSS LOL vvv*/
 	static size_t low_water_mark = 0;
 	while (1) {
@@ -149,11 +141,11 @@ size_t pack_node_threshold(wide_node *wn, skinny_trie *st, size_t leeway)
 		} else {
 			size_t empty_slots = 0;
 			// TODO this is a place for tradeoff, a nonzero number of allowable open spaces would speed up the process, but
-			for (i = 1; i < sizeof(skinny_node)/sizeof(size_t); i++) {
+			for (size_t i = 1; i < sizeof(skinny_node)/sizeof(size_t); i++) {
 				if (!st->key_data[low_water_mark + i])
 					empty_slots++;
 			}
-			if (empty_slots <= leeway) {
+			if (empty_slots <= PACKING_LEEWAY) {
 				low_water_mark++;
 			} else {
 				break;
@@ -162,9 +154,12 @@ size_t pack_node_threshold(wide_node *wn, skinny_trie *st, size_t leeway)
 	}
 /******************* WOW THAT WAS GROSS ^^^*/
 
+	skinny_node *sn;
+	size_t sn_offset;
+
 	/* find appropriately shaped free space */
-	for (i = low_water_mark; /* this is dumb */; i++) {
-		sn = (skinny_node *)(&st->key_data[i]);
+	for (sn_offset = low_water_mark; ; sn_offset++) {
+		sn = (skinny_node *)(&st->key_data[sn_offset]);
 
 		if (sn->bit_map)
 			continue;
@@ -200,7 +195,7 @@ size_t pack_node_threshold(wide_node *wn, skinny_trie *st, size_t leeway)
 			sn->children[j] = pack_node(wn->children[j], st);
 	}
 
-	return i;
+	return sn_offset;
 }
 
 /*****************************************************************************/

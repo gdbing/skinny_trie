@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define PACKING_LEEWAY 1 // TODO
+#define PACKING_LEEWAY 1 // higher value will produce a less space efficient trie but will pack much faster
 
 wide_trie * init_trie();
 int insert(const char *key, const char *val, wide_trie *wt);

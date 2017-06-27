@@ -135,12 +135,10 @@ size_t pack_node(wide_node *wn, skinny_trie *st)
 /******************* THIS IS SO GROSS LOL vvv*/
 	static size_t low_water_mark = 0;
 	while (1) {
-		if (wn->val_i && st->key_data[low_water_mark]) {
-		// TODO why check wn-<val_i???
+		if (st->key_data[low_water_mark]) {
 			low_water_mark++;
 		} else {
 			size_t empty_slots = 0;
-			// TODO this is a place for tradeoff, a nonzero number of allowable open spaces would speed up the process, but
 			for (size_t i = 1; i < sizeof(skinny_node)/sizeof(size_t); i++) {
 				if (!st->key_data[low_water_mark + i])
 					empty_slots++;
@@ -163,7 +161,7 @@ size_t pack_node(wide_node *wn, skinny_trie *st)
 
 		if (sn->bit_map)
 			continue;
-		if (wn->val_i && sn->val_i) // TODO why check wn-<val_i???
+		if (wn->val_i && sn->val_i)
 			continue;
 
 		size_t j;
